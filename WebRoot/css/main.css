@@ -1,0 +1,26 @@
+/**
+ * Bootstrap扩展
+ */
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+/*   background-image: url("../img/bj.jpg"); */
+  background-repeat: no-repeat;
+  background-attachment:fixed;
+  background-size:cover;  
+}
+
+@font-face {
+	font-family:'itcast';
+  src: url('../font/MiFie-Web-Font.eot') format('embedded-opentype'), url('../font/MiFie-Web-Font.svg') format('svg'), url('../font/MiFie-Web-Font.ttf') format('truetype'), url('../font/MiFie-Web-Font.woff') format('woff');
+}
+
+.login_mainBody{
+	position:absolute;  
+	top:40%;  
+	left:50%;  
+	margin-left:-150px;  
+	margin-top:-100px;
+	box-shadow: 5px 5px 5px #888888;
+}
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd" xmlns:tx="http://www.springframework.org/schema/tx">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/iamfree">
+		</property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>lin/jiayu/model/THelp.hbm.xml</value>
+				<value>lin/jiayu/model/TTab.hbm.xml</value>
+				<value>lin/jiayu/model/TComment.hbm.xml</value>
+				<value>lin/jiayu/model/TUser.hbm.xml</value></list>
+		</property></bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+		
+	<!-- 配置dao -->
+	<bean id="baseDao" class="lin.jiayu.dao.impl.BaseDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="commentDao" class="lin.jiayu.dao.impl.CommentDaoImpl" parent="baseDao"></bean>
+	<bean id="helpDao" class="lin.jiayu.dao.impl.HelpDaoImpl" parent="baseDao"></bean>
+	<bean id="tabDao" class="lin.jiayu.dao.impl.TabDaoImpl" parent="baseDao"></bean>
+	<bean id="userDao" class="lin.jiayu.dao.impl.UserDaoImpl" parent="baseDao"></bean>
+	
+	<!-- 配置service -->
+	<bean id="commentService" class="lin.jiayu.service.impl.CommentServiceImpl">
+		<property name="commentDao" ref="commentDao"></property>
+	</bean>
+	<bean id="helpService" class="lin.jiayu.service.impl.HelpServiceImpl">
+		<property name="helpDao" ref="helpDao"></property>
+	</bean>
+	<bean id="tabService" class="lin.jiayu.service.impl.TabServiceImpl">
+		<property name="tabDao" ref="tabDao"></property>
+	</bean>
+	<bean id="userService" class="lin.jiayu.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	
+	<bean id="CommentAction" class="lin.jiayu.action.CommentAction"
+		scope="prototype">
+		<property name="userService" ref="userService"></property>
+		<property name="commentService" ref="commentService"></property>
+		<property name="helpService" ref="helpService"></property>
+	</bean>
+	<bean id="helpAction" class="lin.jiayu.action.HelpAction"
+		scope="prototype">
+		<property name="userService" ref="userService"></property>
+		<property name="commentService" ref="commentService"></property>
+		<property name="helpService" ref="helpService"></property>
+		<property name="tabService" ref="tabService"></property>
+	</bean>
+	<bean id="userAction" class="lin.jiayu.action.UserAction"
+		scope="prototype">
+		<property name="userService" ref="userService"></property>
+		<property name="helpService" ref="helpService"></property>
+		<property name="commentService" ref="commentService"></property>
+	</bean>
+	
+	</beans>

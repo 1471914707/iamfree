@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <!-- 不用重启服务器 -->
+	<constant name="struts.i18n.reload" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 表单样式 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 国际化文件 -->
+	<constant name="struts.custom.i18n.resources" value="messages" />
+	<constant name="struts.multipart.maxSize" value="9000000"/>
+<!-- <constant name="struts.multipart.saveDir" value="/tmp"/> -->
+	<package name="default" namespace="/" extends="json-default">
+		<!-- 用户登录等操作 -->
+		<action name="user_*" class="lin.jiayu.action.UserAction" method="{1}">
+			<result name="success">/index.jsp</result>
+			<result name="detail">/user/userdetail.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="successregister">/successRegister.jsp</result>
+			<result name="input">/login.jsp</result>
+			<result name="register" type="redirect">/register.jsp</result>
+			<result name="json" type="json">
+				<param name="root">#resultMap</param>
+			</result>
+		</action>
+		
+		<!-- 问答操作 -->
+		<action name="help_*" class="lin.jiayu.action.HelpAction" method="{1}">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="myhelps">/user/userdetail.jsp</result>
+			<result name="seo_result">/seo_result.jsp</result>
+			<result name="add">/help/add.jsp</result>
+			<result name="input">/login.jsp</result>
+			<result name="detail">/help/detail.jsp</result>
+			<result name="todetail">/help/todetail.jsp</result>
+		</action>
+		
+		<!-- 评论操作 -->
+		<action name="comment_*" class="lin.jiayu.action.CommentAction" method="{1}">
+			<result name="helpDetail">/help/todetail.jsp</result>
+			<result name="mycomments">/user/userdetail.jsp</result>
+		</action>
+	</package>
+	
+	
+	
+</struts>    
